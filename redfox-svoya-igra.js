@@ -55,18 +55,23 @@
   function readProgress(row) {
     if (!row) return { percent: 0, label: 'Прогресс загружается', completed: false };
 
-    var text = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
-    var count = text.match(/(?:найдено\s*)?(\d+)\s*(?:из|\/)\s*(\d+)(?:\s*\+\s*(\d+))?/i);
+    var text = (row.innerText || row.textContent || '').replace(/\\s+/g, ' ').trim();
+    var count = text.match(/(?:найдено\\s*)?(\\d+)\\s*(?:из|\\/)\\s*(\\d+)(?:\\s*\\+\\s*(\\d+))?/i);
     var percent = NaN;
+    var hasAuthoritativeBarValue = false;
 
     var bar = row.querySelector('.progress-bar,[role="progressbar"],.progress > div');
     if (bar) {
-      var raw = bar.style.width || bar.getAttribute('aria-valuenow');
+      var raw = bar.style.width;
+      if (raw == null || raw === '') raw = bar.getAttribute('aria-valuenow');
       if (raw != null && raw !== '') {
         percent = parseFloat(String(raw).replace('%', ''));
-        if (isFinite(percent) && percent <= 1 && bar.getAttribute('aria-valuemax')) {
-          var max = parseFloat(bar.getAttribute('aria-valuemax'));
-          if (max > 1) percent = percent / max * 100;
+        if (isFinite(percent)) {
+          hasAuthoritativeBarValue = true;
+          if (percent <= 1 && bar.getAttribute('aria-valuemax')) {
+            var max = parseFloat(bar.getAttribute('aria-valuemax'));
+            if (max > 1) percent = percent / max * 100;
+          }
         }
       }
     }
@@ -77,14 +82,20 @@
       var total = parseInt(count[2], 10) + (parseInt(count[3] || '0', 10) || 0);
       if (total > 0) {
         var countPercent = found / total * 100;
-        percent = isFinite(percent) ? Math.max(percent, countPercent) : countPercent;
-        label = 'Найдено ' + found + ' из ' + total;
+        // The live progress bar is authoritative. The text counter can remain
+        // stale after an administrator resets a task's result.
+        if (!hasAuthoritativeBarValue) percent = countPercent;
+        label = hasAuthoritativeBarValue
+          ? 'Выполнено ' + Math.round(Math.max(0, Math.min(100, percent))) + '%'
+          : 'Найдено ' + found + ' из ' + total;
       }
     }
 
     if (!isFinite(percent)) percent = 0;
     percent = Math.max(0, Math.min(100, percent));
-    if (label === 'Прогресс не указан' && percent > 0) label = 'Выполнено ' + Math.round(percent) + '%';
+    if (label === 'Прогресс не указан' && percent >= 0) {
+      label = 'Выполнено ' + Math.round(percent) + '%';
+    }
 
     return {
       percent: percent,
