@@ -11,7 +11,7 @@
   var ROOT_ID = 'rf-svoya-game';
   var STYLE_ID = 'rf-svoya-css';
   var ROOT_CLASS = 'rf-svoya-active';
-  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@7a7450489767b05298ee40fbc693451ced7700b1/styles/main.css';
+  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@fe72938f4a571c4cbf09db8e83638d057eed78f0/styles/main.css';
   var SUPER_URL = '/play/safari/9047';
 
   var CATEGORIES = [
@@ -31,6 +31,7 @@
   var originalRows = [];
   var observer = null;
   var refreshTimer = null;
+  var timerProgressTimer = null;
 
   function normalizedPath(value) {
     try {
@@ -232,6 +233,56 @@
     });
   }
 
+  function initTimerProgress() {
+    var timeBox = document.querySelector('.time');
+    var timeLeftNode = document.getElementById('time_left');
+    if (!timeBox || !timeLeftNode || timeBox.querySelector('.rf-svoya-time-progress')) return;
+
+    // RedFox exposes both counters as global variables in its inline timer script.
+    // Their sum is the actual configured game duration for this session.
+    var initialSpent = Number(window.time_spent);
+    var initialLeft = Number(window.time_left);
+    var totalDuration = initialSpent + initialLeft;
+    if (!isFinite(totalDuration) || totalDuration <= 0) return;
+
+    var progress = el('div', 'rf-svoya-time-progress');
+    progress.setAttribute('role', 'group');
+    progress.setAttribute('aria-label', 'Оставшееся время игры');
+
+    var meta = el('div', 'rf-svoya-time-progress-meta');
+    meta.appendChild(el('span', '', 'ОСТАЛОСЬ ВРЕМЕНИ'));
+    var percent = el('span', 'rf-svoya-time-progress-percent', '100%');
+    meta.appendChild(percent);
+
+    var track = el('div', 'rf-svoya-time-progress-track');
+    track.setAttribute('role', 'progressbar');
+    track.setAttribute('aria-label', 'Доля оставшегося игрового времени');
+    track.setAttribute('aria-valuemin', '0');
+    track.setAttribute('aria-valuemax', '100');
+    var fill = el('span', 'rf-svoya-time-progress-fill');
+    track.appendChild(fill);
+
+    progress.appendChild(meta);
+    progress.appendChild(track);
+    timeBox.appendChild(progress);
+
+    function updateProgress() {
+      var remaining = Number(window.time_left);
+      if (!isFinite(remaining)) return;
+
+      var value = Math.max(0, Math.min(100, remaining / totalDuration * 100));
+      fill.style.width = value + '%';
+      percent.textContent = value.toFixed(1).replace('.', ',') + '%';
+      track.setAttribute('aria-valuenow', String(Math.round(value * 10) / 10));
+
+      progress.classList.toggle('is-warning', value <= 25 && value > 10);
+      progress.classList.toggle('is-critical', value <= 10);
+    }
+
+    updateProgress();
+    timerProgressTimer = window.setInterval(updateProgress, 500);
+  }
+
   function restoreOriginal() {
     originalRows.forEach(function (row) {
       row.classList.remove('rf-svoya-native-hidden');
@@ -278,6 +329,8 @@
         }, 300);
         return;
       }
+
+      initTimerProgress();
 
       if (window.MutationObserver) {
         observer = new MutationObserver(function () {
