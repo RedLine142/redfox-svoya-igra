@@ -21,7 +21,7 @@
     { name: 'Ночной дозор', ids: [9026, 9027, 9028, 9029, 9030] },
     { name: 'Вредные привычки', ids: [9031, 9032, 9033, 9034, 9035] },
     { name: 'Игротека', ids: [9036, 9037, 9038, 9039, 9040] },
-    { name: 'Путешествия', ids: [9041, 9042, 9043, 9044, 9045] }
+    { name: 'Путешествия', ids: [9041, 9042, 9043, 9044, 9046] }
   ];
   var VALUES = [100, 200, 300, 400, 500];
   var ALL_IDS = CATEGORIES.reduce(function (out, category) {
@@ -105,6 +105,7 @@
 
     var foundCount = 0;
     var rowsById = {};
+    var nativeSuperRow = findTaskRow(9047, container);
     ALL_IDS.forEach(function (id) {
       var row = findTaskRow(id, container);
       if (row) {
@@ -198,6 +199,9 @@
         originalRows.push(rowsById[id]);
       }
     });
+    if (nativeSuperRow && originalRows.indexOf(nativeSuperRow) === -1) {
+      originalRows.push(nativeSuperRow);
+    }
     originalRows.forEach(function (row) {
       row.classList.add('rf-svoya-native-hidden');
     });
