@@ -280,7 +280,11 @@
           if (refreshTimer) window.clearTimeout(refreshTimer);
           refreshTimer = window.setTimeout(function () { refreshBoard(container); }, 120);
         });
-        observer.observe(container, { childList: true, subtree: true, characterData: true, attributes: true });
+        // Observe only the original RedFox rows. Observing the whole container
+        // would also observe our own board updates and create a mutation loop.
+        originalRows.forEach(function (row) {
+          observer.observe(row, { childList: true, subtree: true, characterData: true, attributes: true });
+        });
       }
       if (window.console && console.info) console.info('[RED FOX] «Своя игра»: табло готово.');
     });
