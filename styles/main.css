@@ -571,3 +571,37 @@ body.rf-svoya-active #timer {
     letter-spacing: .035em;
   }
 }
+
+
+/* Subtle slow water-like movement in the menu background */
+body.rf-svoya-active::after {
+  content: "";
+  position: fixed;
+  inset: -18%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .38;
+  background:
+    radial-gradient(ellipse at 18% 38%, rgba(48,116,190,.20) 0%, transparent 38%),
+    radial-gradient(ellipse at 76% 24%, rgba(74,145,210,.15) 0%, transparent 42%),
+    radial-gradient(ellipse at 58% 78%, rgba(20,79,151,.20) 0%, transparent 44%),
+    radial-gradient(ellipse at 92% 72%, rgba(67,129,190,.12) 0%, transparent 36%);
+  background-size: 135% 135%, 145% 145%, 155% 155%, 130% 130%;
+  background-position: 0% 35%, 100% 0%, 50% 100%, 100% 70%;
+  animation: rf-svoya-water 38s ease-in-out infinite alternate;
+  will-change: background-position;
+}
+@keyframes rf-svoya-water {
+  0% {
+    background-position: 0% 35%, 100% 0%, 50% 100%, 100% 70%;
+  }
+  50% {
+    background-position: 35% 10%, 65% 45%, 20% 60%, 70% 35%;
+  }
+  100% {
+    background-position: 70% 55%, 10% 100%, 85% 15%, 0% 5%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.rf-svoya-active::after { animation: none !important; }
+}
