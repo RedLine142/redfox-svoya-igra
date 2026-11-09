@@ -460,3 +460,109 @@ body.rf-svoya-active .time {
   .rf-svoya-time-progress-meta { font-size: 8px; letter-spacing: .1em; }
   .rf-svoya-time-progress-track { height: 7px; }
 }
+
+
+/* Refined countdown and clock panel */
+body.rf-svoya-active .time {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+  width: min(1240px, calc(100% - 30px));
+  margin: 18px auto 20px !important;
+  padding: 17px 22px 15px !important;
+  border: 1px solid rgba(231,189,99,.32);
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 16% 0%, rgba(39,91,151,.25), transparent 55%),
+    linear-gradient(110deg, rgba(13,31,59,.98), rgba(6,16,35,.98));
+  box-shadow: 0 14px 36px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.045);
+}
+body.rf-svoya-active .time .wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+body.rf-svoya-active .level_time {
+  color: #a9bddc !important;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .2em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+body.rf-svoya-active #time_left {
+  display: block;
+  margin-top: 5px;
+  color: var(--rf-svoya-gold-light) !important;
+  font-family: "Arial", "Roboto", sans-serif;
+  font-size: clamp(22px, 3vw, 31px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .035em;
+  line-height: 1.1;
+  text-shadow: 0 0 16px rgba(231,189,99,.2);
+}
+body.rf-svoya-active .timer {
+  min-width: 150px;
+  padding-left: 22px;
+  border-left: 1px solid rgba(133,164,207,.2);
+  color: #e8effc !important;
+  font-size: 0;
+  text-align: right;
+}
+body.rf-svoya-active .timer::before {
+  content: "ТЕКУЩЕЕ ВРЕМЯ";
+  display: block;
+  margin-bottom: 6px;
+  color: #8299bb;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .19em;
+}
+body.rf-svoya-active #timer {
+  display: block;
+  color: #f3f6fc !important;
+  font-family: "Courier New", monospace;
+  font-size: clamp(20px, 2.6vw, 27px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .075em;
+  line-height: 1.1;
+  text-shadow: 0 0 15px rgba(125,170,235,.2);
+}
+.rf-svoya-time-progress {
+  margin-top: 1px;
+}
+@media (max-width: 700px) {
+  body.rf-svoya-active .time {
+    width: calc(100% - 14px);
+    gap: 12px;
+    padding: 14px 14px 12px !important;
+  }
+  body.rf-svoya-active .time .wrapper {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+  body.rf-svoya-active .level_time {
+    font-size: 9px;
+    letter-spacing: .14em;
+  }
+  body.rf-svoya-active #time_left {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+  body.rf-svoya-active .timer {
+    min-width: 112px;
+    padding-left: 12px;
+  }
+  body.rf-svoya-active .timer::before {
+    font-size: 8px;
+    letter-spacing: .12em;
+  }
+  body.rf-svoya-active #timer {
+    font-size: clamp(17px, 4.5vw, 22px);
+    letter-spacing: .035em;
+  }
+}
