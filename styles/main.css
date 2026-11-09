@@ -573,67 +573,37 @@ body.rf-svoya-active #timer {
 }
 
 
-/* Subtle slow water-like movement in the menu background */
-body.rf-svoya-active::after {
-  content: "";
+/* Low-contrast television game-show stage background with scroll parallax */
+.rf-svoya-photo-layer {
   position: fixed;
-  inset: -18%;
+  inset: -12vh 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .38;
-  background:
-    radial-gradient(ellipse at 18% 38%, rgba(48,116,190,.20) 0%, transparent 38%),
-    radial-gradient(ellipse at 76% 24%, rgba(74,145,210,.15) 0%, transparent 42%),
-    radial-gradient(ellipse at 58% 78%, rgba(20,79,151,.20) 0%, transparent 44%),
-    radial-gradient(ellipse at 92% 72%, rgba(67,129,190,.12) 0%, transparent 36%);
-  background-size: 135% 135%, 145% 145%, 155% 155%, 130% 130%;
-  background-position: 0% 35%, 100% 0%, 50% 100%, 100% 70%;
-  animation: rf-svoya-water 38s ease-in-out infinite alternate;
-  will-change: background-position;
-}
-@keyframes rf-svoya-water {
-  0% {
-    background-position: 0% 35%, 100% 0%, 50% 100%, 100% 70%;
-  }
-  50% {
-    background-position: 35% 10%, 65% 45%, 20% 60%, 70% 35%;
-  }
-  100% {
-    background-position: 70% 55%, 10% 100%, 85% 15%, 0% 5%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  body.rf-svoya-active::after { animation: none !important; }
-}
-
-
-/* Visible, slow-moving water-light layer for the game menu */
-body.rf-svoya-active {
-  isolation: isolate;
-}
-.rf-svoya-water-layer {
-  position: fixed;
-  inset: -28%;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: .62;
-  background:
-    radial-gradient(ellipse 38% 26% at 22% 34%, rgba(55,137,216,.30), transparent 72%),
-    radial-gradient(ellipse 34% 30% at 76% 28%, rgba(82,164,226,.23), transparent 72%),
-    radial-gradient(ellipse 42% 28% at 62% 76%, rgba(30,103,184,.30), transparent 72%),
-    radial-gradient(ellipse 30% 24% at 12% 82%, rgba(62,126,196,.19), transparent 72%);
-  filter: blur(24px);
-  transform: translate3d(-3%, -2%, 0) scale(1.04);
-  animation: rf-svoya-water-drift 24s ease-in-out infinite alternate;
+  opacity: .17;
+  background-image: url("https://images.unsplash.com/photo-1767294273267-0d4ef6712668?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=2400");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  mix-blend-mode: overlay;
+  filter: saturate(.78) contrast(1.12);
+  transform: translate3d(0, var(--rf-svoya-parallax-y, 0px), 0) scale(1.08);
   will-change: transform;
 }
-@keyframes rf-svoya-water-drift {
-  0%   { transform: translate3d(-3%, -2%, 0) scale(1.04) rotate(-2deg); }
-  35%  { transform: translate3d(3%, 2%, 0) scale(1.09) rotate(1deg); }
-  70%  { transform: translate3d(-1%, 4%, 0) scale(1.06) rotate(2deg); }
-  100% { transform: translate3d(4%, -3%, 0) scale(1.11) rotate(-1deg); }
+.rf-svoya-photo-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3,9,22,.32), rgba(3,9,22,.58) 55%, rgba(3,9,22,.76));
+}
+body.rf-svoya-active .container {
+  background: linear-gradient(145deg, rgba(15,35,69,.84), rgba(5,13,29,.87));
+}
+@media (max-width: 700px) {
+  .rf-svoya-photo-layer {
+    inset: -7vh -12vw;
+    opacity: .13;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rf-svoya-water-layer { animation: none !important; }
+  .rf-svoya-photo-layer { transform: none !important; }
 }
