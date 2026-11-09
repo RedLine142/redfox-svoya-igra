@@ -12,7 +12,6 @@
   var STYLE_ID = 'rf-svoya-css';
   var ROOT_CLASS = 'rf-svoya-active';
   var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@b320b5ff6b398d544884035e43d4e11ac3f97d21/styles/main.css';
-  var INTRO_GIF_URL = 'https://kemerovo.redfoxkrsk.ru/static/up/images/animaciya_steklyannogo_logotipa_svoya_igra_%280.75x%29_.gif';
   var SUPER_URL = '/play/safari/9047';
 
   var CATEGORIES = [
@@ -212,61 +211,6 @@
     return true;
   }
 
-  function showIntro() {
-    if (document.getElementById('rf-svoya-intro')) return;
-
-    var overlay = el('div', 'rf-svoya-intro');
-    overlay.id = 'rf-svoya-intro';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-label', 'Заставка телешоу «Своя игра»');
-
-    var tv = el('div', 'rf-svoya-tv');
-    var screen = el('div', 'rf-svoya-tv-screen');
-    var gif = el('img', 'rf-svoya-tv-gif');
-    gif.src = INTRO_GIF_URL;
-    gif.alt = 'Анимация стеклянного логотипа «Своя игра»';
-    gif.decoding = 'async';
-    screen.appendChild(gif);
-
-    var brand = el('div', 'rf-svoya-tv-brand', 'ЭЛЕКТРОН');
-    var controls = el('div', 'rf-svoya-tv-controls');
-    controls.appendChild(el('span', 'rf-svoya-tv-led'));
-    controls.appendChild(el('span', 'rf-svoya-tv-knob'));
-    controls.appendChild(el('span', 'rf-svoya-tv-knob'));
-
-    tv.appendChild(screen);
-    tv.appendChild(brand);
-    tv.appendChild(controls);
-    overlay.appendChild(tv);
-    overlay.appendChild(el('div', 'rf-svoya-intro-hint', 'НАЖМИТЕ, ЧТОБЫ ПРОПУСТИТЬ'));
-
-    document.body.appendChild(overlay);
-
-    var finished = false;
-    var timer = null;
-    function closeIntro() {
-      if (finished) return;
-      finished = true;
-      if (timer) window.clearTimeout(timer);
-      overlay.classList.add('is-leaving');
-      window.setTimeout(function () {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, 900);
-    }
-
-    overlay.addEventListener('click', closeIntro);
-    gif.onload = function () {
-      // The source animation is about 3.2 seconds long; leave a small pause
-      // before fading the CRT television away.
-      timer = window.setTimeout(closeIntro, 3700);
-    };
-    gif.onerror = function () {
-      timer = window.setTimeout(closeIntro, 900);
-    };
-    // Fallback in case the browser never fires load/error for the remote GIF.
-    timer = window.setTimeout(closeIntro, 6000);
-  }
-
   function refreshBoard(container) {
     var board = document.getElementById(ROOT_ID);
     if (!board) return;
@@ -346,7 +290,6 @@
           observer.observe(row, { childList: true, subtree: true, characterData: true, attributes: true });
         });
       }
-      showIntro();
       if (window.console && console.info) console.info('[RED FOX] «Своя игра»: табло готово.');
     });
   }
