@@ -11,7 +11,7 @@
   var ROOT_ID = 'rf-svoya-game';
   var STYLE_ID = 'rf-svoya-css';
   var ROOT_CLASS = 'rf-svoya-active';
-  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@620f307c70b68eabff3f6bcd1c69c679d1c81762/styles/main.css';
+  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@e186e4682f51d9dd74e7d01152da06055eddcf8e/styles/main.css';
   var SUPER_URL = '/play/safari/9047';
 
   var CATEGORIES = [
@@ -209,6 +209,11 @@
 
     document.documentElement.classList.add(ROOT_CLASS);
     document.body.classList.add(ROOT_CLASS);
+    if (!document.querySelector('.rf-svoya-water-layer')) {
+      var waterLayer = el('div', 'rf-svoya-water-layer');
+      waterLayer.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(waterLayer, document.body.firstChild);
+    }
     return true;
   }
 
