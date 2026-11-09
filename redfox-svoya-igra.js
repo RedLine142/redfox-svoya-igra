@@ -209,20 +209,6 @@
 
     document.documentElement.classList.add(ROOT_CLASS);
     document.body.classList.add(ROOT_CLASS);
-    if (!document.querySelector('.rf-svoya-photo-layer')) {
-      var photoLayer = el('div', 'rf-svoya-photo-layer');
-      photoLayer.setAttribute('aria-hidden', 'true');
-      document.body.insertBefore(photoLayer, document.body.firstChild);
-
-      // Move the background more slowly than the page content for a subtle parallax effect.
-      var updateParallax = function () {
-        var offset = Math.min((window.pageYOffset || document.documentElement.scrollTop || 0) * 0.12, 160);
-        document.documentElement.style.setProperty('--rf-svoya-parallax-y', offset.toFixed(1) + 'px');
-      };
-      updateParallax();
-      window.addEventListener('scroll', updateParallax, { passive: true });
-      window.addEventListener('resize', updateParallax, { passive: true });
-    }
     return true;
   }
 
