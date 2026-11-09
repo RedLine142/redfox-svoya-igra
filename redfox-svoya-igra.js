@@ -11,7 +11,7 @@
   var ROOT_ID = 'rf-svoya-game';
   var STYLE_ID = 'rf-svoya-css';
   var ROOT_CLASS = 'rf-svoya-active';
-  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@e186e4682f51d9dd74e7d01152da06055eddcf8e/styles/main.css';
+  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@9fb70f1f835fcbcdf68c6a569037cd4c3078274f/styles/main.css';
   var SUPER_URL = '/play/safari/9047';
 
   var CATEGORIES = [
@@ -209,10 +209,19 @@
 
     document.documentElement.classList.add(ROOT_CLASS);
     document.body.classList.add(ROOT_CLASS);
-    if (!document.querySelector('.rf-svoya-water-layer')) {
-      var waterLayer = el('div', 'rf-svoya-water-layer');
-      waterLayer.setAttribute('aria-hidden', 'true');
-      document.body.insertBefore(waterLayer, document.body.firstChild);
+    if (!document.querySelector('.rf-svoya-photo-layer')) {
+      var photoLayer = el('div', 'rf-svoya-photo-layer');
+      photoLayer.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(photoLayer, document.body.firstChild);
+
+      // Move the background more slowly than the page content for a subtle parallax effect.
+      var updateParallax = function () {
+        var offset = Math.min((window.pageYOffset || document.documentElement.scrollTop || 0) * 0.12, 160);
+        document.documentElement.style.setProperty('--rf-svoya-parallax-y', offset.toFixed(1) + 'px');
+      };
+      updateParallax();
+      window.addEventListener('scroll', updateParallax, { passive: true });
+      window.addEventListener('resize', updateParallax, { passive: true });
     }
     return true;
   }
