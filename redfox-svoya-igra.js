@@ -11,7 +11,7 @@
   var ROOT_ID = 'rf-svoya-game';
   var STYLE_ID = 'rf-svoya-css';
   var ROOT_CLASS = 'rf-svoya-active';
-  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@b8611c1028e2a7cf27ff10db849d9b6a5ee664b9/styles/main.css';
+  var CSS_URL = 'https://cdn.jsdelivr.net/gh/RedLine142/redfox-svoya-igra@86065ed0512877030c928bcae53afe2524bbe7dd/styles/main.css';
   var SUPER_URL = '/play/safari/9047';
 
   var CATEGORIES = [
