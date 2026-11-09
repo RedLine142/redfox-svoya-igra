@@ -471,12 +471,17 @@ body.rf-svoya-active .time {
   width: min(1240px, calc(100% - 30px));
   margin: 18px auto 20px !important;
   padding: 17px 22px 15px !important;
-  border: 1px solid rgba(231,189,99,.32);
+  border: 1px solid rgba(117,190,255,.58);
   border-radius: 13px;
   background:
-    radial-gradient(ellipse at 16% 0%, rgba(39,91,151,.25), transparent 55%),
-    linear-gradient(110deg, rgba(13,31,59,.98), rgba(6,16,35,.98));
-  box-shadow: 0 14px 36px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.045);
+    radial-gradient(ellipse at 18% 0%, rgba(150,218,255,.48), transparent 48%),
+    radial-gradient(ellipse at 92% 100%, rgba(29,104,190,.42), transparent 55%),
+    linear-gradient(112deg, #245f9b 0%, #174b82 38%, #103866 72%, #0b294f 100%);
+  box-shadow:
+    0 14px 36px rgba(0,0,0,.32),
+    inset 0 1px rgba(255,255,255,.22),
+    inset 0 -18px 35px rgba(2,17,39,.22),
+    0 0 28px rgba(57,139,218,.16);
 }
 body.rf-svoya-active .time .wrapper {
   display: grid;
